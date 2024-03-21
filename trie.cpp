@@ -1,23 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct TrieNode {
+class TrieNode{
+  public:
   bool isEndOfWord;
   TrieNode* children[26];
+
+  TrieNode() {
+    isEndOfWord = false;
+    for(int i = 0;i<26;++i) children[i] = NULL;
+  }
 };
 
-TrieNode* getNewNode() {
-  TrieNode* newNode = new TrieNode();
-  newNode->isEndOfWord = false;
+class TrieHelper{
+  private:
+   TrieNode* root;
+  public:
+    TrieHelper() {
+      root = new TrieNode();
+    }
 
-  for(int i = 0;i<26;++i) newNode->children[i] = NULL;
-
-  return newNode;
-}
-
-TrieNode* root = getNewNode();
-
-void insert(string &word) {
+  void insert(string &word) {
   int n = word.length();
 
   TrieNode* p = root;
@@ -25,7 +28,7 @@ void insert(string &word) {
   for(int i = 0;i<n;++i) {
     int idx = word[i] - 'a';
 
-    if(p->children[idx] == NULL) p->children[idx] = getNewNode();
+    if(p->children[idx] == NULL) p->children[idx] = new TrieNode();
 
     p = p->children[idx];
   }
@@ -33,7 +36,7 @@ void insert(string &word) {
   p->isEndOfWord = true;
 }
 
-bool search(string &word) {
+  bool search(string &word) {
    int n = word.length();
 
   TrieNode* p = root;
@@ -67,9 +70,11 @@ bool startsWith(string word) {
   return i == n;
 }
 
-int main() {
-    string s = "raja";
-    insert(s);
+};
 
-    cout << startsWith("raj");
+int main() {
+    TrieHelper hp;
+    string s = "raja";
+    hp.insert(s);
+   cout <<  hp.startsWith("raj");
 }
